@@ -1,21 +1,33 @@
-import Conf from 'conf';
+import { homedir } from 'os';
+import { join } from 'path';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 
-const config = new Conf({ projectName: '@ktmcp-cli/authentiq' });
+const CONFIG_DIR = join(homedir(), '.ktmcp');
+const CONFIG_FILE = join(CONFIG_DIR, 'authentiq.json');
 
-export function getConfig(key) {
-  return config.get(key);
+export function getConfig() {
+  if (!existsSync(CONFIG_FILE)) {
+    return { apiKey: null, baseUrl: 'https://6-dot-authentiqio.appspot.com' };
+  }
+  try {
+    const data = readFileSync(CONFIG_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    return { apiKey: null, baseUrl: 'https://6-dot-authentiqio.appspot.com' };
+  }
 }
 
-export function setConfig(key, value) {
-  config.set(key, value);
+export function setConfig(updates) {
+  if (!existsSync(CONFIG_DIR)) {
+    mkdirSync(CONFIG_DIR, { recursive: true });
+  }
+  const current = getConfig();
+  const newConfig = { ...current, ...updates };
+  writeFileSync(CONFIG_FILE, JSON.stringify(newConfig, null, 2));
+  return newConfig;
 }
 
 export function isConfigured() {
-  return !!config.get('token');
+  const config = getConfig();
+  return !!config.apiKey;
 }
-
-export function getAllConfig() {
-  return config.store;
-}
-
-export default config;

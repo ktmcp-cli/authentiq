@@ -1,66 +1,53 @@
-# AGENT.md — Authentiq CLI for AI Agents
+# Authentiq CLI - Agent Guide
 
-This document explains how to use the Authentiq CLI as an AI agent.
+This CLI provides access to Authentiq's passwordless authentication API.
 
-## Overview
+## Authentication
 
-The `authentiq` CLI provides access to the Authentiq Identity API. Requires a Bearer token.
-
-## Prerequisites
+API key optional for some operations. Configure at:
 
 ```bash
-authentiq config set token YOUR_BEARER_TOKEN
+authentiq config set --api-key YOUR_API_KEY
 ```
 
-## All Commands
+## Common Operations
 
-### Config
+### Key Management
 
 ```bash
-authentiq config get <key>
-authentiq config set <key> <value>
-authentiq config list
+# Create key
+authentiq key create --data '{"name":"mykey"}' --json
+
+# Get key
+authentiq key get <public-key> --json
+
+# Update key
+authentiq key update <pk> --data '{"name":"updated"}' --json
+
+# Delete key
+authentiq key delete <pk>
 ```
 
-### Sessions
+### Scope Management
 
 ```bash
-authentiq sessions list
-authentiq sessions create --scope "openid email"
-authentiq sessions create --scope "openid profile" --callback https://example.com/callback
-authentiq sessions get <session-id>
-authentiq sessions delete <session-id>
+# Create scope request
+authentiq scope create --data '{"scope":"email"}' --json
+
+# Get scope status
+authentiq scope get <job-id> --json
 ```
 
-### Keys
+## Usage Patterns
 
-```bash
-authentiq keys register --key '{"kty":"EC","crv":"P-256","x":"...","y":"..."}'
-authentiq keys get <pk>
-authentiq keys update <pk> --data '{"status":"active"}'
-authentiq keys revoke <pk>
-```
-
-### Scopes
-
-```bash
-authentiq scopes list
-authentiq scopes get <scope-id>
-authentiq scopes request --data '{"scope":"email"}'
-```
-
-## JSON Output
-
-All commands support `--json`:
-
-```bash
-authentiq sessions list --json
-authentiq keys get <pk> --json
-authentiq scopes list --json
-```
+All commands support `--json` for machine-readable output. Perfect for:
+- Authentication workflows
+- Identity management
+- Security automation
+- User verification systems
 
 ## Error Handling
 
-The CLI exits with code 1 on error and prints to stderr.
-- `Authentication failed` — Run `authentiq config set token YOUR_TOKEN`
-- `Resource not found` — Check the ID is correct
+- Returns exit code 0 on success
+- Returns exit code 1 on error
+- Use `--json` and check exit codes in scripts

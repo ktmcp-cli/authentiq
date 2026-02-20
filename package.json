@@ -1,27 +1,23 @@
 {
   "name": "@ktmcp-cli/authentiq",
   "version": "1.0.0",
-  "description": "Production-ready CLI for Authentiq Identity API - Kill The MCP",
+  "description": "Production-ready CLI for Authentiq - Strong authentication without passwords",
   "type": "module",
   "main": "src/index.js",
   "bin": {
     "authentiq": "bin/authentiq.js"
   },
-  "keywords": ["authentiq", "identity", "sessions", "keys", "scopes", "cli", "api", "ktmcp"],
+  "keywords": ["authentiq", "authentication", "identity", "security", "cli", "api", "ktmcp"],
   "author": "KTMCP",
   "license": "MIT",
   "dependencies": {
-    "commander": "^12.0.0",
-    "axios": "^1.6.7",
     "chalk": "^5.3.0",
-    "ora": "^8.0.1",
-    "conf": "^12.0.0"
+    "commander": "^11.1.0",
+    "ora": "^7.0.1"
   },
-  "engines": { "node": ">=18.0.0" },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ktmcp-cli/authentiq.git"
+    "url": "https://github.com/ktmcp-cli/authentiq"
   },
-  "homepage": "https://killthemcp.com/authentiq-cli",
-  "bugs": { "url": "https://github.com/ktmcp-cli/authentiq/issues" }
+  "homepage": "https://killthemcp.com/authentiq-cli"
 }

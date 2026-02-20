@@ -1,3 +1,5 @@
+![Banner](https://raw.githubusercontent.com/ktmcp-cli/authentiq/main/banner.svg)
+
 > "Six months ago, everyone was talking about MCPs. And I was like, screw MCPs. Every MCP would be better as a CLI."
 >
 > — [Peter Steinberger](https://twitter.com/steipete), Founder of OpenClaw
@@ -5,7 +7,16 @@
 
 # Authentiq CLI
 
-Production-ready CLI for the Authentiq Identity API. Manage sessions, keys, and scopes directly from your terminal.
+> **⚠️ Unofficial CLI** - Not officially sponsored or affiliated with Authentiq.
+
+A production-ready command-line interface for [Authentiq](https://www.authentiq.com/) — strong authentication without passwords. Manage authentication keys and scopes from your terminal.
+
+## Features
+
+- **Key Management** — Create, update, delete authentication keys
+- **Scope Control** — Manage authentication scopes
+- **JSON output** — All commands support `--json` for scripting
+- **Colorized output** — Clean terminal output with chalk
 
 ## Installation
 
@@ -13,70 +24,64 @@ Production-ready CLI for the Authentiq Identity API. Manage sessions, keys, and 
 npm install -g @ktmcp-cli/authentiq
 ```
 
-## Configuration
+## Quick Start
 
 ```bash
-authentiq config set token YOUR_BEARER_TOKEN
+# Configure API key (optional for some operations)
+authentiq config set --api-key YOUR_API_KEY
+
+# Create a new key
+authentiq key create --data '{"name":"mykey"}'
+
+# Get a key
+authentiq key get <public-key>
+
+# Create a scope request
+authentiq scope create --data '{"scope":"email"}'
 ```
 
-## Usage
+## Commands
 
-### Sessions
+### Config
 
 ```bash
-# List all sessions
-authentiq sessions list
-
-# Create a new session
-authentiq sessions create --scope "openid email"
-authentiq sessions create --scope "openid profile" --callback https://example.com/callback
-
-# Get session details
-authentiq sessions get <session-id>
-
-# Delete a session
-authentiq sessions delete <session-id>
+authentiq config set --api-key <key>
+authentiq config show
 ```
 
-### Keys
+### Key Management
 
 ```bash
-# Register a public key (JWK format)
-authentiq keys register --key '{"kty":"EC","crv":"P-256","x":"...","y":"..."}'
-
-# Get key details
-authentiq keys get <pk>
-
-# Update a key
-authentiq keys update <pk> --data '{"status":"active"}'
-
-# Revoke a key
-authentiq keys revoke <pk>
+authentiq key create --data <json>
+authentiq key get <pk>
+authentiq key update <pk> --data <json>
+authentiq key delete <pk>
 ```
 
-### Scopes
+### Scope Management
 
 ```bash
-# List available scopes
-authentiq scopes list
-
-# Get scope details
-authentiq scopes get openid
-
-# Request additional scopes
-authentiq scopes request --data '{"scope":"email"}'
+authentiq scope create --data <json>
+authentiq scope get <job-id>
 ```
 
-### JSON Output
+## JSON Output
 
-All commands support `--json` for machine-readable output:
+All commands support `--json` for structured output:
 
 ```bash
-authentiq sessions list --json
-authentiq sessions get <id> --json
-authentiq scopes list --json
+authentiq key get <pk> --json | jq '.name'
+authentiq scope get <job> --json | jq '.status'
 ```
+
+## Why CLI > MCP?
+
+No server to run. No protocol overhead. Just install and go.
+
+- **Simpler** — Just a binary you call directly
+- **Composable** — Pipe to `jq`, `grep`, `awk`
+- **Scriptable** — Works in cron jobs, CI/CD, shell scripts
 
 ## License
 
-MIT
+MIT — Part of the [Kill The MCP](https://killthemcp.com) project.

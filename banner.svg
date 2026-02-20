@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200" viewBox="0 0 800 200">
+  <rect width="800" height="200" fill="#0a0e27"/>
+  <text x="50" y="110" font-family="monospace" font-size="48" font-weight="bold" fill="#00d9ff">
+    Authentiq CLI
+  </text>
+  <text x="50" y="150" font-family="monospace" font-size="20" fill="#7dd3fc">
+    Strong authentication without passwords
+  </text>
+  <circle cx="720" cy="100" r="40" fill="none" stroke="#00d9ff" stroke-width="3"/>
+  <path d="M 720 85 L 720 100 L 730 90" stroke="#00d9ff" stroke-width="3" fill="none"/>
+  <rect x="710" y="100" width="20" height="20" rx="2" fill="none" stroke="#00d9ff" stroke-width="3"/>
+</svg>
